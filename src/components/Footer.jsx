@@ -6,7 +6,7 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        backgroundColor: "violet",
+        backgroundColor: "#D360FD",
         width: "100%",
         height: "30px",
         position: "fixed",

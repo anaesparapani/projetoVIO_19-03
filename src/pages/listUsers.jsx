@@ -10,11 +10,34 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
 import api from "../axios/axios";
-import { Button } from "@mui/material";
+import { Button, IconButton, Alert, Snackbar } from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Link, useNavigate } from "react-router-dom";
 
 function listUsers() {
   const [users, setUsers] = useState([]);
+  const [alert, setAlert] = useState({
+    // visibilidade (false = oculto; true = visível)
+    open: false,
+
+    // nível do alerta (sucess, error, warning, etc)
+    severity: "",
+
+    // mensagem que será exibida
+    message: "",
+  });
+
+  // função para exibir o alerta
+  const showAlert = (severity, message) => {
+    setAlert({ open: true, severity, message });
+  };
+
+  // fechar o alerta
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false });
+  };
+
   const navigate = useNavigate();
 
   async function getUsers() {
@@ -30,12 +53,29 @@ function listUsers() {
     );
   }
 
+  async function deleteUser(id) {
+    try {
+      await api.deleteUser(id);
+      await getUsers();
+      showAlert("success", "Usuário excluído com sucesso!");
+    } catch (error) {
+      console.log("Erro ao deletar usuário...", error);
+      showAlert("error", error.response.data.error);
+    }
+  }
+
   const listUsers = users.map((user) => {
     return (
       <TableRow key={user.id_usuario}>
         <TableCell align="center">{user.name}</TableCell>
         <TableCell align="center">{user.email}</TableCell>
         <TableCell align="center">{user.cpf}</TableCell>
+
+        <TableCell align="center">
+          <IconButton onClick={() => deleteUser(user.id)}>
+            <DeleteIcon color="error" />
+          </IconButton>
+        </TableCell>
       </TableRow>
     );
   });
@@ -54,6 +94,11 @@ function listUsers() {
 
   return (
     <div>
+      <Snackbar open = {alert.open} autoHideDuration={3000} onClose={handleCloseAlert} anchorOrigin={{vertical:"top", horizontal:"center"}}>
+      <Alert onClose={handleCloseAlert} severity={alert.severity} sx={{width:"100%"}}>
+        {alert.message}
+      </Alert>
+      </Snackbar>
       {users.length === 0 ? ( //? = após a '?' é true
         <p>Carregando usuários</p>
       ) : (
@@ -63,18 +108,24 @@ function listUsers() {
           <TableContainer component={Paper} style={{ margin: "2px" }}>
             <Table size="small">
               <TableHead
-                style={{ backgroundColor: "violet", borderStyle: "solid" }}
+                style={{ backgroundColor: "#D360FD", borderStyle: "solid" }}
               >
                 <TableRow>
                   <TableCell align="center">Nome</TableCell>
                   <TableCell align="center">Email</TableCell>
                   <TableCell align="center">CPF</TableCell>
+                  <TableCell align="center">Ações</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{listUsers}</TableBody>
             </Table>
           </TableContainer>
-          <Button fullWidth variant="contained" onClick={logout}>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={logout}
+            sx={{ backgroundColor: "#C97EFD" }}
+          >
             SAIR
           </Button>
         </div>

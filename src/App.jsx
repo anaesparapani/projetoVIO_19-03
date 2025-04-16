@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ListEvento from "./pages/listEvento";
 import ListUsers from "./pages/listUsers";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
@@ -10,13 +11,27 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/cadastro" element={
-            <ProtectedRoute>
-              <Cadastro/>
-            </ProtectedRoute>} />
-          <Route path="/users" element={
+          <Route
+            path="/cadastro"
+            element={
+              <ProtectedRoute>
+                <Cadastro />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users"
+            element={
               <ProtectedRoute>
                 <ListUsers />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/eventos"
+            element={
+              <ProtectedRoute>
+                <ListEventos />
               </ProtectedRoute>
             }
           />
@@ -25,4 +40,5 @@ function App() {
     </div>
   );
 }
+
 export default App;

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ListEvento from "./pages/listEvento";
+import ListEvento from "./pages/listEventos";
 import ListUsers from "./pages/listUsers";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
@@ -28,10 +28,10 @@ function App() {
             }
           />
           <Route
-            path="/eventos"
+            path="/evento"
             element={
               <ProtectedRoute>
-                <ListEventos />
+                <ListEvento/>
               </ProtectedRoute>
             }
           />

@@ -72,7 +72,7 @@ function listUsers() {
         <TableCell align="center">{user.cpf}</TableCell>
 
         <TableCell align="center">
-          <IconButton onClick={() => deleteUser(user.id)}>
+          <IconButton onClick={() => deleteUser(user.id_usuario)}>
             <DeleteIcon color="error" />
           </IconButton>
         </TableCell>
@@ -127,6 +127,13 @@ function listUsers() {
             sx={{ backgroundColor: "#C97EFD" }}
           >
             SAIR
+          </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{ backgroundColor: "#C97EFD" }}
+          >
+            <Link to="/evento">EVENTOS</Link>
           </Button>
         </div>
       )}

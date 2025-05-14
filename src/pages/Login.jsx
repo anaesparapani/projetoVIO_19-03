@@ -33,6 +33,7 @@ function Login() {
       (response) => {
         alert(response.data.message);
         localStorage.setItem("authenticated", true); //salva localmente que este usuário já esta autenticado
+        localStorage.setItem("token", response.data.token);
         navigate("users/");
       },
       (error) => {

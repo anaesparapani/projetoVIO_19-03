@@ -19,6 +19,27 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+api.interceptors.response.use( //resposta do servidor
+  (response) => response, //se houver uma resposta, recupera e passa para frente
+  (error) => { //se houver um erro, analisa o que tem de errado
+    if (error.response) {
+      if (error.response.status === 401 && error.response.data.auth === false) { //401 = sua autorização expirou
+        localStorage.setItem("refresh_token", true);
+        localStorage.removeItem("token");
+        localStorage.removeItem("authenticated");
+        window.location.href = "/"; //usa se por causa do arquivo js, e não react 
+      }
+      else if (error.response.status === 403 && error.response.data.auth === false) { //403 = requisição inválida
+        localStorage.setItem("refresh_token", true);
+        localStorage.removeItem("token");
+        localStorage.removeItem("authenticated");
+        window.location.href = "/"; //usa se por causa do arquivo js, e não react 
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 const sheets = {
   getUsers: () => api.get("user"),
   postLogin: (user) => api.post("login/", user),

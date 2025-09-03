@@ -73,7 +73,7 @@ function CreateEvent() {
           Criar Evento
         </Button>
       </form>
-      <Link to="/evento">Listar Eventos</Link>
+      <Link to="/eventos">Listar Eventos</Link>
     </div>
   );
 }
